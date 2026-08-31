@@ -2,204 +2,678 @@
 
 # 🏥 Hospital Appointment Booking System
 
-A full-stack web application for booking, managing, and tracking hospital appointments — built with plain **HTML, CSS, JavaScript, PHP, and SQLite** (no frameworks required).
+### A Complete Web-Based Hospital Appointment Management System
 
-![PHP](https://img.shields.io/badge/PHP-8.x-777BB4?style=flat-square&logo=php&logoColor=white)
-![SQLite](https://img.shields.io/badge/SQLite-3-003B57?style=flat-square&logo=sqlite&logoColor=white)
-![HTML5](https://img.shields.io/badge/HTML-5-E34F26?style=flat-square&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS-3-1572B6?style=flat-square&logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-ES6-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
-![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
+<p>
+  <b>Book Appointments • Manage Doctors • Track Appointments • Admin Dashboard</b>
+</p>
+
+<br>
+
+<img src="https://img.shields.io/badge/PHP-8.x-777BB4?style=for-the-badge&logo=php&logoColor=white">
+<img src="https://img.shields.io/badge/MySQL-8.x-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
+<img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
+<img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white">
+<img src="https://img.shields.io/badge/JavaScript-ES6-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
+
+<br><br>
+
+<img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge">
 
 </div>
 
 ---
 
-## 📖 Overview
+## 📖 About The Project
 
-The **Hospital Appointment Booking System** lets patients browse doctors, book appointments online, and track or cancel their bookings — while giving hospital staff an admin panel to manage doctors and appointments in real time.
+The **Hospital Appointment Booking System** is a full-stack web application developed to simplify and manage hospital appointment scheduling.
 
-It's built entirely on **PHP + MySQL**, so it runs anywhere PHP runs, with zero external services, no build step, and no database server to install.
+The system allows patients to browse doctors, select their preferred doctor, choose an available date and time, and book appointments online.
 
----
+An **Admin Dashboard** is also provided to manage doctors and appointments efficiently.
 
-## ✨ Features
-
-**Patient side**
-- Browse doctors by department, experience, and availability
-- Book an appointment with client-side **and** server-side validation
-- Instant booking confirmation with a unique Appointment ID
-- Look up and cancel appointments using a phone number (no account needed)
-
-**Admin side**
-- Secure login (hashed passwords, session-based auth)
-- Dashboard with live stats (total doctors, total appointments, today's appointments, cancellations)
-- Add / remove doctors
-- Search, update status, or delete any appointment
-
-**Engineering**
-- Client-side validation (JS) for instant feedback + server-side re-validation (PHP) for real security
-- Prepared statements throughout (SQL-injection safe)
-- Output escaping throughout (XSS safe)
-- Double-booking prevention (same doctor, same date & time slot)
-- Auto-provisioning database — schema and seed data are created on first run, no manual SQL required
+This project is built using **PHP, MySQL, HTML5, CSS3, and Vanilla JavaScript**, making it simple to understand, run, and maintain.
 
 ---
 
-## 🛠️ Tech Stack
+## 🎯 Project Objectives
 
-| Layer | Technology | Purpose |
-|---|---|---|
-| Structure | HTML5 | Page markup |
-| Styling | CSS3 | Layout, theming, animations |
-| Interactivity | Vanilla JavaScript | Form validation, UI animation |
-| Backend | PHP 8 | Server logic, routing, sessions |
-| Database | SQLite 3 (via PDO) | Persistent storage in a single file |
+The main objectives of this project are:
+
+* 🏥 Digitize the hospital appointment booking process
+* 👨‍⚕️ Make doctor information easily accessible
+* 📅 Simplify appointment scheduling
+* 👤 Manage patient appointment information
+* 👨‍💼 Provide an admin panel for hospital staff
+* 🔒 Implement secure authentication and database operations
+* ⚡ Reduce manual appointment management
 
 ---
 
-## 🏗️ Architecture
+# ✨ Features
 
+## 👤 Patient Features
+
+* 🏠 User-friendly home page
+* 👨‍⚕️ Browse available doctors
+* 🏥 View doctors by department
+* 📋 View doctor details and experience
+* 📅 Select appointment date
+* ⏰ Select appointment time
+* 📝 Enter patient details
+* ✅ Book appointments online
+* 🎫 Generate unique Appointment ID
+* 🔍 Search existing appointments
+* 📱 Search appointments using phone number
+* ❌ Cancel appointments
+* ✔️ Client-side form validation
+* ✔️ Server-side form validation
+
+---
+
+## 👨‍💼 Admin Features
+
+* 🔐 Secure Admin Login
+* 📊 Admin Dashboard
+* 📈 View appointment statistics
+* 👨‍⚕️ Add new doctors
+* 🗑️ Delete doctors
+* 📋 View all appointments
+* 🔍 Search appointments
+* 🔄 Update appointment status
+* ❌ Delete appointments
+* 📅 View today's appointments
+* 📊 Monitor cancelled appointments
+
+---
+
+# 🛠️ Technology Stack
+
+| Technology           | Usage                                   |
+| -------------------- | --------------------------------------- |
+| 🐘 **PHP 8.x**       | Backend development                     |
+| 🗄️ **MySQL**        | Database management                     |
+| 🌐 **HTML5**         | Website structure                       |
+| 🎨 **CSS3**          | Styling and responsive design           |
+| ⚡ **JavaScript ES6** | Client-side validation and interactions |
+| 🔌 **PDO / MySQL**   | Database connectivity                   |
+| 🔐 **PHP Sessions**  | Admin authentication                    |
+| 🖥️ **XAMPP**        | Local development environment           |
+| 💻 **VS Code**       | Development environment                 |
+
+---
+
+# 🏗️ System Architecture
+
+```text
+                    ┌─────────────────────┐
+                    │       PATIENT       │
+                    │      Web Browser    │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │   HTML / CSS / JS   │
+                    │      Frontend       │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │        PHP          │
+                    │       Backend       │
+                    │ Validation & Logic  │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │       MySQL         │
+                    │      Database       │
+                    └─────────────────────┘
 ```
-Browser (HTML/CSS/JS)
-        │  form submit
-        ▼
-   book.php  ──────────────►  database/connect.php (PDO)
-        │  validate + insert            │
-        ▼                               ▼
-confirmation.php               hospital.db (SQLite)
-```
 
-- **`includes/header.php` & `includes/footer.php`** — shared layout, included on every page so nav/footer changes happen in one place.
-- **`database/connect.php`** — the single gatekeeper to the database; creates tables and seed data automatically if they don't exist.
-- **Patients** are identified by phone number lookup (no login required).
-- **Admins** authenticate via PHP sessions, guarded by `admin/auth.php` on every protected page.
+---
 
-### Database schema (SQLite)
+# 🗃️ Database Design
 
-```
-doctors                    patients                    appointments
-────────────────           ────────────────            ─────────────────────
-doctor_id (PK)              patient_id (PK)             appointment_id (PK)
-name                        name                         patient_id (FK)
-department                  age                          doctor_id (FK)
-qualification                gender                       appointment_date
-experience                  phone                        appointment_time
-phone                        email                        reason
-email                                                    status
-available_days                                            created_at
+The system uses **MySQL** to store and manage application data.
+
+### 👨‍⚕️ Doctors Table
+
+```text
+doctors
+────────────────────────────
+doctor_id        PRIMARY KEY
+name
+department
+qualification
+experience
+phone
+email
+available_days
 available_time
 ```
 
-One doctor → many appointments. One patient → many appointments.
+### 👤 Patients Table
+
+```text
+patients
+────────────────────────────
+patient_id       PRIMARY KEY
+name
+age
+gender
+phone
+email
+```
+
+### 📅 Appointments Table
+
+```text
+appointments
+────────────────────────────
+appointment_id      PRIMARY KEY
+patient_id          FOREIGN KEY
+doctor_id           FOREIGN KEY
+appointment_date
+appointment_time
+reason
+status
+created_at
+```
+
+### 🔗 Relationships
+
+```text
+             ┌─────────────┐
+             │   DOCTORS   │
+             └──────┬──────┘
+                    │
+                    │ 1
+                    │
+                    │ Many
+                    ▼
+             ┌─────────────┐
+             │APPOINTMENTS │
+             └──────┬──────┘
+                    ▲
+                    │ Many
+                    │
+                    │ 1
+             ┌──────┴──────┐
+             │   PATIENTS  │
+             └─────────────┘
+```
+
+* One doctor can have multiple appointments.
+* One patient can have multiple appointments.
+* Each appointment belongs to one doctor and one patient.
 
 ---
 
-## 📂 Project Structure
+# 📂 Project Structure
 
-```
-HospitalAppointmentSystem/
-├── admin/                  # Admin login, dashboard, doctor & appointment management
-│   ├── auth.php            # Session guard included on every protected admin page
-│   ├── login.php / logout.php
+```text
+Hospital_Booking_System/
+│
+├── 📁 admin/
+│   ├── auth.php
+│   ├── login.php
+│   ├── logout.php
 │   ├── dashboard.php
-│   ├── doctors.php / add_doctor.php
+│   ├── doctors.php
+│   ├── add_doctor.php
 │   └── appointments.php
-├── patient/                 # Patient appointment lookup & cancellation
+│
+├── 📁 patient/
 │   ├── dashboard.php
 │   └── cancel.php
-├── database/
-│   ├── connect.php          # PDO connection + schema + seed data (auto-run)
-│   └── hospital.db          # Generated on first run — not committed to git
-├── includes/
+│
+├── 📁 database/
+│   └── connect.php
+│
+├── 📁 includes/
 │   ├── header.php
 │   └── footer.php
-├── css/style.css
-├── js/
-│   ├── validation.js        # Client-side form validation
-│   └── animations.js        # Scroll-reveal, ripple, counters (purely visual)
-├── index.php / doctors.php / appointment.php / book.php
-├── confirmation.php / about.php / contact.php
+│
+├── 📁 css/
+│   └── style.css
+│
+├── 📁 js/
+│   ├── validation.js
+│   └── animations.js
+│
+├── index.php
+├── doctors.php
+├── appointment.php
+├── book.php
+├── confirmation.php
+├── about.php
+├── contact.php
 └── README.md
 ```
 
 ---
 
-## 🚀 Getting Started
+# 🚀 Installation & Setup
 
-### Prerequisites
-- PHP 8.x with the `pdo_sqlite` extension enabled (bundled by default in most PHP installs and in XAMPP/WAMP/MAMP)
+Follow the steps below to run the project on your local system.
 
-### Option A — PHP's built-in server (fastest)
+## 1️⃣ Requirements
+
+Before running the project, install:
+
+* **XAMPP**
+* **PHP 8.x**
+* **MySQL**
+* **Git**
+* **VS Code**
+
+---
+
+## 2️⃣ Clone the Repository
+
+Open the VS Code terminal and run:
+
 ```bash
-git clone https://github.com/Snehar273/hospital-appointment-system.git
-cd hospital-appointment-system
+git clone https://github.com/Sharmila200608/hospital_appointment_booking_system.git
+```
+
+Navigate to the project:
+
+```bash
+cd hospital_appointment_booking_system
+```
+
+---
+
+# 🐘 PHP Setup
+
+If PHP is already configured in your system, check the PHP version using:
+
+```bash
+php -v
+```
+
+If PHP is not available directly through the terminal, use the XAMPP PHP executable.
+
+### First time only
+
+Run:
+
+```powershell
+C:\xampp\php\php.exe -v
+```
+
+This confirms that PHP is installed correctly through XAMPP.
+
+---
+
+# 🗄️ MySQL Setup
+
+### Step 1 — Start XAMPP
+
+Open **XAMPP Control Panel**.
+
+Start:
+
+```text
+MySQL  → Start
+```
+
+You do not need to start Apache if you are running the project using PHP's built-in development server.
+
+---
+
+### Step 2 — Create Database
+
+Open:
+
+```text
+http://localhost/phpmyadmin
+```
+
+Create a new database named:
+
+```text
+hospital_booking_system
+```
+
+Import or create the required tables using the SQL file provided with the project, if available.
+
+---
+
+### Step 3 — Configure Database Connection
+
+Open:
+
+```text
+database/connect.php
+```
+
+Configure your MySQL connection.
+
+Example:
+
+```php
+<?php
+
+$host = "localhost";
+$dbname = "hospital_booking_system";
+$username = "root";
+$password = "";
+
+$conn = new PDO(
+    "mysql:host=$host;dbname=$dbname;charset=utf8mb4",
+    $username,
+    $password
+);
+
+$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+?>
+```
+
+> **Note:** Change the username and password if your MySQL configuration is different.
+
+---
+
+# ▶️ Run the Application
+
+After configuring MySQL, open the VS Code terminal.
+
+Go to the project directory:
+
+```powershell
+cd C:\Hospital_Booking_System\hbs
+```
+
+Then start the PHP development server:
+
+```powershell
 php -S localhost:8000
 ```
-Visit **http://localhost:8000**
 
-### Option B — XAMPP / WAMP / MAMP
-1. Copy the project folder into `htdocs` (XAMPP) or `www` (WAMP).
-2. Start Apache from the control panel.
-3. Visit `http://localhost/hospital-appointment-system/`
+If the `php` command is not recognized, use:
 
-No manual database setup is needed — `database/connect.php` creates `hospital.db`, its tables, 6 sample doctors, and a default admin account automatically the first time any page loads.
-
-### Default admin login
+```powershell
+C:\xampp\php\php.exe -S localhost:8000
 ```
+
+You should see:
+
+```text
+Development Server (http://localhost:8000) started
+```
+
+Now open your browser:
+
+```text
+http://localhost:8000
+```
+
+🎉 **The Hospital Appointment Booking System is now running!**
+
+---
+
+# 🔄 How To Run The Project Every Time
+
+After the initial PHP setup, you only need to follow these steps:
+
+```text
+1. Open XAMPP
+        ↓
+2. Start MySQL
+        ↓
+3. Open VS Code
+        ↓
+4. Open the project folder
+        ↓
+5. Open VS Code Terminal
+        ↓
+6. Run:
+   php -S localhost:8000
+        ↓
+7. Open:
+   http://localhost:8000
+```
+
+### 💡 Important
+
+The command:
+
+```powershell
+C:\xampp\php\php.exe -v
+```
+
+is mainly for **checking PHP for the first time**.
+
+You do **not** need to run it every time.
+
+---
+
+# 🔐 Admin Login
+
+Use the administrator credentials configured for the application:
+
+```text
 Username: admin
 Password: admin123
 ```
-> ⚠️ Change this before deploying anywhere public — see [Security Notes](#-security-notes).
+
+> ⚠️ **Security:** Change the default admin password before using the application in a real production environment.
 
 ---
 
-## 🧭 Usage Walkthrough
+# 🧭 Application Workflow
 
-1. **Home → Book Appointment** — fill in patient details, pick a doctor, date, and time slot.
-2. Submit — you'll land on a **Confirmation** page with your Appointment ID.
-3. **My Appointments** — look up your booking using the phone number you registered with, and cancel it if needed.
-4. **Admin → Login** — view live stats, add/remove doctors, and manage all appointments (search by name, update status, delete).
+## 👤 Patient Workflow
 
----
-
-## 🔒 Security Notes
-
-- Passwords are hashed with `password_hash()` — never stored in plain text.
-- All database queries use **PDO prepared statements** to prevent SQL injection.
-- All output is passed through `htmlspecialchars()` to prevent XSS.
-- Before deploying publicly:
-  - Change the default admin password.
-  - Block direct access to `database/hospital.db` (e.g. an `.htaccess` with `Deny from all` inside the `database/` folder).
-  - Serve over HTTPS.
-
----
-
-## 🌐 Deployment
-
-Works on any standard PHP shared host (cPanel, etc.) or a VPS with Apache/Nginx + PHP.
-
-> **Note:** Platforms with an ephemeral filesystem (e.g. free tiers of Render/Railway/Heroku) will **wipe `hospital.db` on every restart or redeploy**. For persistent data, use standard PHP hosting, a VPS, or attach a persistent volume.
-
----
-
-## 🗺️ Roadmap / Possible Extensions
-
-- [ ] Email/SMS appointment reminders
-- [ ] Patient accounts with authentication
-- [ ] Doctor-side portal for viewing their own schedule
-- [ ] Calendar view for admins
-- [ ] Migrate to MySQL/PostgreSQL for multi-server deployments
+```text
+🏠 Home
+   │
+   ▼
+👨‍⚕️ Browse Doctors
+   │
+   ▼
+🏥 Select Department
+   │
+   ▼
+👨‍⚕️ Select Doctor
+   │
+   ▼
+📅 Select Date & Time
+   │
+   ▼
+📝 Enter Patient Details
+   │
+   ▼
+✅ Book Appointment
+   │
+   ▼
+🎫 Confirmation
+   │
+   ▼
+🆔 Appointment ID
+```
 
 ---
 
-## 📄 License
+## 👨‍💼 Admin Workflow
 
-This project is open-sourced under the [MIT License](LICENSE).
+```text
+🔐 Admin Login
+      │
+      ▼
+📊 Dashboard
+      │
+      ├──────────────► 👨‍⚕️ Manage Doctors
+      │
+      └──────────────► 📅 Manage Appointments
+                              │
+                              ▼
+                       🔍 Search
+                              │
+                              ▼
+                       🔄 Update Status
+                              │
+                              ▼
+                       ❌ Delete
+```
 
 ---
 
-## 🙋 Author
+# 🔒 Security
 
-Built as a full-stack development project.
-Feel free to fork, adapt, and extend it for your own use case.
+The application includes several security practices.
+
+### 🔐 Password Hashing
+
+Admin passwords are protected using PHP password hashing:
+
+```php
+password_hash()
+```
+
+### 🛡️ SQL Injection Protection
+
+Prepared statements are used for database queries.
+
+Example:
+
+```php
+$stmt = $conn->prepare(
+    "SELECT * FROM doctors WHERE doctor_id = ?"
+);
+
+$stmt->execute([$doctorId]);
+```
+
+### 🧹 XSS Protection
+
+User-generated output is escaped using:
+
+```php
+htmlspecialchars($value)
+```
+
+### 🔑 Session Authentication
+
+Admin pages are protected using PHP sessions.
+
+### 🚫 Double Booking Prevention
+
+The application checks the selected:
+
+```text
+Doctor + Appointment Date + Appointment Time
+```
+
+before creating a new appointment.
+
+---
+
+# 📊 Admin Dashboard
+
+The admin dashboard provides an overview of the hospital appointment system.
+
+It can display:
+
+| Statistic                | Description                      |
+| ------------------------ | -------------------------------- |
+| 👨‍⚕️ Total Doctors      | Number of registered doctors     |
+| 📅 Total Appointments    | Total appointments               |
+| 📆 Today's Appointments  | Appointments scheduled for today |
+| ❌ Cancelled Appointments | Number of cancelled bookings     |
+
+---
+
+# 🌟 Why This Project?
+
+This project demonstrates practical full-stack web development concepts such as:
+
+* Frontend development
+* Backend development
+* MySQL database integration
+* CRUD operations
+* Authentication
+* Session management
+* Form validation
+* Secure database operations
+* Appointment scheduling
+* Admin dashboard development
+* Responsive web design
+
+---
+
+# 🚀 Future Enhancements
+
+The system can be extended with:
+
+* [ ] 📧 Email appointment reminders
+* [ ] 📱 SMS notifications
+* [ ] 👤 Patient registration and login
+* [ ] 👨‍⚕️ Doctor login portal
+* [ ] 📅 Calendar-based scheduling
+* [ ] 🔔 Real-time notifications
+* [ ] 📊 Advanced analytics
+* [ ] 💳 Online payment integration
+* [ ] 🌍 Multi-language support
+* [ ] ☁️ Cloud deployment
+* [ ] 🏥 Multiple hospital support
+
+---
+
+# 🎓 Project Purpose
+
+This project was developed as a **Full-Stack Web Development Project** to demonstrate the practical implementation of:
+
+> **HTML + CSS + JavaScript + PHP + MySQL**
+
+It provides hands-on experience with frontend development, backend programming, database management, authentication, CRUD operations, and real-world appointment scheduling.
+
+---
+
+# 📄 License
+
+This project is licensed under the **MIT License**.
+
+You are free to:
+
+* Use the project
+* Modify the project
+* Extend the project
+* Distribute the project
+
+See the `LICENSE` file for complete license information.
+
+---
+
+# 👩‍💻 Author
+
+<div align="center">
+
+## **Sharmila R**
+
+### 💻 Full-Stack Web Development Project
+
+🏥 **Hospital Appointment Booking System**
+
+<br>
+
+⭐ If you find this project useful, please consider giving it a **Star**!
+
+🍴 **Fork** • ⭐ **Star** • 💡 **Contribute**
+
+</div>
+
+---
+
+<div align="center">
+
+## 🏥 Hospital Appointment Booking System
+
+### Making hospital appointment management simple, fast, and accessible.
+
+**Built with ❤️ using PHP & MySQL**
+
+</div>
