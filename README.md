@@ -1,93 +1,205 @@
-<<<<<<< HEAD
-# ABC Hospital — Appointment Booking System
+<div align="center">
 
-Stack: HTML + CSS + JavaScript + PHP 8 + SQLite. No frameworks, no external dependencies.
+# 🏥 Hospital Appointment Booking System
 
-## What's inside
+A full-stack web application for booking, managing, and tracking hospital appointments — built with plain **HTML, CSS, JavaScript, PHP, and SQLite** (no frameworks required).
 
-### Patient-facing
-- Home (live stats, featured doctors, testimonials), Services (departments overview), Doctors (search & filter,
-  ratings), Doctor Profile (bio, fee, reviews), Book Appointment (live slot-availability picker), Confirmation
-  (printable), My Appointments (login-based or guest phone lookup), Reschedule, Cancel, Leave a Review, About
-  (with FAQ accordion), Contact (message form).
-- **Patient accounts**: Register / Login / Logout. Logged-in patients skip the phone-lookup step on "My
-  Appointments". Guests can still look up and manage bookings by phone number, exactly as before.
+![PHP](https://img.shields.io/badge/PHP-8.x-777BB4?style=flat-square&logo=php&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-3-003B57?style=flat-square&logo=sqlite&logoColor=white)
+![HTML5](https://img.shields.io/badge/HTML-5-E34F26?style=flat-square&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS-3-1572B6?style=flat-square&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
+![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
-### Admin
-- Login, Dashboard (stats + quick actions with unread/pending badges), Manage Doctors (add/edit/delete,
-  bio & fee), Manage Appointments (search/update status/delete), **Messages inbox** (contact form submissions),
-  **Review moderation** (approve/delete patient reviews before they go public), **Reports & Analytics**
-  (appointments by department, top doctors, 14-day booking trend, cancellation rate — all rendered with plain
-  CSS/SVG bar charts, no chart library), **CSV export** of all appointments.
+</div>
 
-### Database
-SQLite file auto-created on first run (`database/hospital.db`) with 6 sample doctors (bios + fees) and a
-default admin. New tables (`reviews`, `messages`) and new columns (`patients.password`, `doctors.bio`,
-`doctors.fee`) are created automatically via lightweight migrations in `database/connect.php` — safe to run
-against a fresh or existing database.
+---
 
-## Requirements
-- PHP 8.x with the `pdo_sqlite` extension enabled (bundled by default in most PHP installs).
-- No MySQL, no Composer, no Node needed.
+## 📖 Overview
 
-## How to run it (2 options)
+The **Hospital Appointment Booking System** lets patients browse doctors, book appointments online, and track or cancel their bookings — while giving hospital staff an admin panel to manage doctors and appointments in real time.
 
-### Option A — Quick start with PHP's built-in server (recommended for testing)
-1. Install PHP if you don't have it (php.net or `sudo apt install php-cli php-sqlite3` on Ubuntu).
-2. Unzip the project, open a terminal inside the `hbs` folder.
-3. Run:
-   ```
-   php -S localhost:8000
-   ```
-4. Open your browser at `http://localhost:8000`.
+It's built entirely on **PHP + MySQL**, so it runs anywhere PHP runs, with zero external services, no build step, and no database server to install.
+
+---
+
+## ✨ Features
+
+**Patient side**
+- Browse doctors by department, experience, and availability
+- Book an appointment with client-side **and** server-side validation
+- Instant booking confirmation with a unique Appointment ID
+- Look up and cancel appointments using a phone number (no account needed)
+
+**Admin side**
+- Secure login (hashed passwords, session-based auth)
+- Dashboard with live stats (total doctors, total appointments, today's appointments, cancellations)
+- Add / remove doctors
+- Search, update status, or delete any appointment
+
+**Engineering**
+- Client-side validation (JS) for instant feedback + server-side re-validation (PHP) for real security
+- Prepared statements throughout (SQL-injection safe)
+- Output escaping throughout (XSS safe)
+- Double-booking prevention (same doctor, same date & time slot)
+- Auto-provisioning database — schema and seed data are created on first run, no manual SQL required
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology | Purpose |
+|---|---|---|
+| Structure | HTML5 | Page markup |
+| Styling | CSS3 | Layout, theming, animations |
+| Interactivity | Vanilla JavaScript | Form validation, UI animation |
+| Backend | PHP 8 | Server logic, routing, sessions |
+| Database | SQLite 3 (via PDO) | Persistent storage in a single file |
+
+---
+
+## 🏗️ Architecture
+
+```
+Browser (HTML/CSS/JS)
+        │  form submit
+        ▼
+   book.php  ──────────────►  database/connect.php (PDO)
+        │  validate + insert            │
+        ▼                               ▼
+confirmation.php               hospital.db (SQLite)
+```
+
+- **`includes/header.php` & `includes/footer.php`** — shared layout, included on every page so nav/footer changes happen in one place.
+- **`database/connect.php`** — the single gatekeeper to the database; creates tables and seed data automatically if they don't exist.
+- **Patients** are identified by phone number lookup (no login required).
+- **Admins** authenticate via PHP sessions, guarded by `admin/auth.php` on every protected page.
+
+### Database schema (SQLite)
+
+```
+doctors                    patients                    appointments
+────────────────           ────────────────            ─────────────────────
+doctor_id (PK)              patient_id (PK)             appointment_id (PK)
+name                        name                         patient_id (FK)
+department                  age                          doctor_id (FK)
+qualification                gender                       appointment_date
+experience                  phone                        appointment_time
+phone                        email                        reason
+email                                                    status
+available_days                                            created_at
+available_time
+```
+
+One doctor → many appointments. One patient → many appointments.
+
+---
+
+## 📂 Project Structure
+
+```
+HospitalAppointmentSystem/
+├── admin/                  # Admin login, dashboard, doctor & appointment management
+│   ├── auth.php            # Session guard included on every protected admin page
+│   ├── login.php / logout.php
+│   ├── dashboard.php
+│   ├── doctors.php / add_doctor.php
+│   └── appointments.php
+├── patient/                 # Patient appointment lookup & cancellation
+│   ├── dashboard.php
+│   └── cancel.php
+├── database/
+│   ├── connect.php          # PDO connection + schema + seed data (auto-run)
+│   └── hospital.db          # Generated on first run — not committed to git
+├── includes/
+│   ├── header.php
+│   └── footer.php
+├── css/style.css
+├── js/
+│   ├── validation.js        # Client-side form validation
+│   └── animations.js        # Scroll-reveal, ripple, counters (purely visual)
+├── index.php / doctors.php / appointment.php / book.php
+├── confirmation.php / about.php / contact.php
+└── README.md
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- PHP 8.x with the `pdo_sqlite` extension enabled (bundled by default in most PHP installs and in XAMPP/WAMP/MAMP)
+
+### Option A — PHP's built-in server (fastest)
+```bash
+git clone https://github.com/Snehar273/hospital-appointment-system.git
+cd hospital-appointment-system
+php -S localhost:8000
+```
+Visit **http://localhost:8000**
 
 ### Option B — XAMPP / WAMP / MAMP
-1. Install XAMPP and start Apache.
-2. Copy the unzipped `hbs` folder into `htdocs` (XAMPP) or `www` (WAMP).
-3. Open `http://localhost/hbs/` in your browser.
+1. Copy the project folder into `htdocs` (XAMPP) or `www` (WAMP).
+2. Start Apache from the control panel.
+3. Visit `http://localhost/hospital-appointment-system/`
 
-The database file and tables are created automatically the first time any page runs — you don't need to run
-any SQL manually. Make sure the `database/` folder is writable by the web server.
+No manual database setup is needed — `database/connect.php` creates `hospital.db`, its tables, 6 sample doctors, and a default admin account automatically the first time any page loads.
 
-## Default logins
-- **Admin panel** (`/admin/login.php`): username `admin`, password `admin123`
-- **Patients**: create a free account at `/patient/register.php`, or continue booking as a guest — booking only
-  asks for name/phone/email, and "My Appointments" looks up bookings by the phone number you booked with.
-
-## Try it out (suggested walkthrough)
-1. Go to Home → Services to see the departments, or straight to Doctors to search/filter and open a doctor's
-   profile.
-2. Click "Book Appointment". Fill the form — the time-slot grid greys out slots already taken for the doctor
-   and date you pick (live, via `slots.php`). Submit.
-3. You'll land on a printable Confirmation page with your Appointment ID.
-4. Go to "My Appointments" (or create an account first to skip typing your phone number every time). You can
-   Reschedule or Cancel any upcoming booking, and once the appointment date has passed, leave a Review.
-5. Go to Admin → login with admin/admin123. Check the dashboard badges, approve the review you just submitted,
-   read the message from Contact Us, edit a doctor's fee/bio, and open Reports & Export.
-
-## Project structure
+### Default admin login
 ```
-hbs/
-├── css/style.css                    # single stylesheet, all pages
-├── js/validation.js, slots.js, animations.js
-├── database/connect.php             # PDO connection + schema + migrations + seed data
-├── includes/header.php, footer.php, functions.php   # shared layout + helpers
-├── admin/                           # login, dashboard, doctors, edit_doctor, add_doctor,
-│                                     # appointments, messages, reviews, reports, export, auth guard
-├── patient/                         # register, login, logout, dashboard, reschedule, review, cancel
-├── index.php, services.php, doctors.php, doctor.php, appointment.php, book.php, slots.php,
-│   confirmation.php, about.php, contact.php
+Username: admin
+Password: admin123
 ```
+> ⚠️ Change this before deploying anywhere public — see [Security Notes](#-security-notes).
 
-## Notes
-- Passwords are hashed with `password_hash()`; nothing is stored in plain text.
-- All SQL uses prepared statements (PDO) to prevent SQL injection.
-- Double-booking the same doctor at the same date/time slot is blocked server-side (checked again on reschedule).
-- Reviews are moderated: they're saved as "Pending" and only appear on a doctor's profile / the homepage
-  testimonials once an admin approves them.
-- To reset all data, just delete `database/hospital.db` — it will be recreated (with fresh seed doctors) the
-  next time a page loads.
-=======
-# hospital_appointment_booking_system
-The Hospital Appointment Booking System provides an online platform where patients can book appointments with doctors, while administrators can manage doctor details and appointment records through a secure dashboard. The project demonstrates frontend-backend integration, database connectivity, form validation, and CRUD operations.
->>>>>>> eec365108a2be05c8bdb70e9227f7fcd25d450f6
+---
+
+## 🧭 Usage Walkthrough
+
+1. **Home → Book Appointment** — fill in patient details, pick a doctor, date, and time slot.
+2. Submit — you'll land on a **Confirmation** page with your Appointment ID.
+3. **My Appointments** — look up your booking using the phone number you registered with, and cancel it if needed.
+4. **Admin → Login** — view live stats, add/remove doctors, and manage all appointments (search by name, update status, delete).
+
+---
+
+## 🔒 Security Notes
+
+- Passwords are hashed with `password_hash()` — never stored in plain text.
+- All database queries use **PDO prepared statements** to prevent SQL injection.
+- All output is passed through `htmlspecialchars()` to prevent XSS.
+- Before deploying publicly:
+  - Change the default admin password.
+  - Block direct access to `database/hospital.db` (e.g. an `.htaccess` with `Deny from all` inside the `database/` folder).
+  - Serve over HTTPS.
+
+---
+
+## 🌐 Deployment
+
+Works on any standard PHP shared host (cPanel, etc.) or a VPS with Apache/Nginx + PHP.
+
+> **Note:** Platforms with an ephemeral filesystem (e.g. free tiers of Render/Railway/Heroku) will **wipe `hospital.db` on every restart or redeploy**. For persistent data, use standard PHP hosting, a VPS, or attach a persistent volume.
+
+---
+
+## 🗺️ Roadmap / Possible Extensions
+
+- [ ] Email/SMS appointment reminders
+- [ ] Patient accounts with authentication
+- [ ] Doctor-side portal for viewing their own schedule
+- [ ] Calendar view for admins
+- [ ] Migrate to MySQL/PostgreSQL for multi-server deployments
+
+---
+
+## 📄 License
+
+This project is open-sourced under the [MIT License](LICENSE).
+
+---
+
+## 🙋 Author
+
+Built as a full-stack development project.
+Feel free to fork, adapt, and extend it for your own use case.
