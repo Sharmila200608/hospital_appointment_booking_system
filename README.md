@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ABC Hospital — Appointment Booking System
 
 Stack: HTML + CSS + JavaScript + PHP 8 + SQLite. No frameworks, no external dependencies.
@@ -86,3 +87,7 @@ hbs/
   testimonials once an admin approves them.
 - To reset all data, just delete `database/hospital.db` — it will be recreated (with fresh seed doctors) the
   next time a page loads.
+=======
+# hospital_appointment_booking_system
+The Hospital Appointment Booking System provides an online platform where patients can book appointments with doctors, while administrators can manage doctor details and appointment records through a secure dashboard. The project demonstrates frontend-backend integration, database connectivity, form validation, and CRUD operations.
+>>>>>>> eec365108a2be05c8bdb70e9227f7fcd25d450f6
