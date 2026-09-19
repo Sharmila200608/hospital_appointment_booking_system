@@ -132,17 +132,18 @@
 // require_once __DIR__ . '/../includes/functions.php';
 
 
-
+<?php
 // database/connect.php - PDO MySQL connection, schema creation, migrations, and seed data.
 
 // InfinityFree Database Credentials
-$host = 'sql304.infinityfree.com'; // Replace with your MySQL Host Name from cPanel
-$dbname = 'if0_42956349_hr_database';   // Replace with your MySQL DB Name
-$user = 'if0_42956349';            // Replace with your MySQL User Name
-$pass = '3cnERaXkgjpsLJb';      // Replace with your MySQL Password
+$host   = 'sql304.infinityfree.com';
+$dbname = 'if0_42956349_hr_database';
+$user   = 'if0_42956349';
+$pass   = '3cnERaXkgjpsLJb';
+$port   = 3306;
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $user, $pass);
+    $pdo = new PDO("mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4", $user, $pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
