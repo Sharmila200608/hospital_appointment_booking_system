@@ -1,101 +1,225 @@
 <?php
-// database/connect.php - PDO SQLite connection, schema creation, migrations, and seed data.
 
-$dbPath = __DIR__ . '/hospital.db';
-$isNew = !file_exists($dbPath);
+// $dbPath = __DIR__ . '/hospital.db';
+// $isNew = !file_exists($dbPath);
+
+// try {
+//     $pdo = new PDO('sqlite:' . $dbPath);
+//     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+//     $pdo->exec('PRAGMA foreign_keys = ON');
+// } catch (PDOException $e) {
+//     die('Database connection failed: ' . $e->getMessage());
+// }
+
+// const DEPARTMENTS = ['Cardiology', 'Neurology', 'Pediatrics', 'Orthopedics', 'Dermatology', 'General Medicine'];
+
+
+// $pdo->exec("CREATE TABLE IF NOT EXISTS doctors (
+//     doctor_id INTEGER PRIMARY KEY AUTOINCREMENT,
+//     name TEXT NOT NULL,
+//     department TEXT NOT NULL,
+//     qualification TEXT,
+//     experience INTEGER,
+//     phone TEXT,
+//     email TEXT,
+//     available_days TEXT,
+//     available_time TEXT
+// )");
+
+// $pdo->exec("CREATE TABLE IF NOT EXISTS patients (
+//     patient_id INTEGER PRIMARY KEY AUTOINCREMENT,
+//     name TEXT NOT NULL,
+//     age INTEGER,
+//     gender TEXT,
+//     phone TEXT NOT NULL,
+//     email TEXT
+// )");
+
+// $pdo->exec("CREATE TABLE IF NOT EXISTS appointments (
+//     appointment_id INTEGER PRIMARY KEY AUTOINCREMENT,
+//     patient_id INTEGER NOT NULL,
+//     doctor_id INTEGER NOT NULL,
+//     appointment_date TEXT NOT NULL,
+//     appointment_time TEXT NOT NULL,
+//     reason TEXT,
+//     status TEXT NOT NULL DEFAULT 'Confirmed',
+//     created_at TEXT NOT NULL,
+//     FOREIGN KEY (patient_id) REFERENCES patients(patient_id),
+//     FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id)
+// )");
+
+// $pdo->exec("CREATE TABLE IF NOT EXISTS admin (
+//     admin_id INTEGER PRIMARY KEY AUTOINCREMENT,
+//     username TEXT UNIQUE NOT NULL,
+//     password TEXT NOT NULL
+// )");
+
+
+// $pdo->exec("CREATE TABLE IF NOT EXISTS reviews (
+//     review_id INTEGER PRIMARY KEY AUTOINCREMENT,
+//     doctor_id INTEGER NOT NULL,
+//     patient_id INTEGER,
+//     appointment_id INTEGER UNIQUE,
+//     patient_name TEXT NOT NULL,
+//     rating INTEGER NOT NULL,
+//     comment TEXT,
+//     status TEXT NOT NULL DEFAULT 'Pending',
+//     created_at TEXT NOT NULL,
+//     FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id)
+// )");
+
+// $pdo->exec("CREATE TABLE IF NOT EXISTS messages (
+//     message_id INTEGER PRIMARY KEY AUTOINCREMENT,
+//     name TEXT NOT NULL,
+//     email TEXT NOT NULL,
+//     subject TEXT,
+//     message TEXT NOT NULL,
+//     is_read INTEGER NOT NULL DEFAULT 0,
+//     created_at TEXT NOT NULL
+// )");
+
+
+// function addColumnIfMissing(PDO $pdo, string $table, string $column, string $definition): void
+// {
+//     $cols = $pdo->query("PRAGMA table_info($table)")->fetchAll(PDO::FETCH_ASSOC);
+//     foreach ($cols as $c) {
+//         if (strcasecmp($c['name'], $column) === 0) {
+//             return; 
+//         }
+//     }
+//     $pdo->exec("ALTER TABLE $table ADD COLUMN $column $definition");
+// }
+
+// addColumnIfMissing($pdo, 'patients', 'password', 'TEXT');
+// addColumnIfMissing($pdo, 'patients', 'created_at', 'TEXT');
+// addColumnIfMissing($pdo, 'doctors', 'bio', 'TEXT');
+// addColumnIfMissing($pdo, 'doctors', 'fee', 'INTEGER');
+
+// $count = (int)$pdo->query('SELECT COUNT(*) FROM doctors')->fetchColumn();
+// if ($count === 0) {
+//     $doctors = [
+//         ['Dr. Priya Sharma', 'Cardiology', 'MD, DM Cardiology', 8, '9876500001', 'priya.sharma@hospital.com', 'Mon-Sat', '09:00 AM - 05:00 PM',
+//             'Dr. Priya Sharma specializes in interventional cardiology and preventive heart care, helping patients manage and reverse cardiovascular risk.', 600],
+//         ['Dr. Arun Kumar', 'Neurology', 'MD, DM Neurology', 12, '9876500002', 'arun.kumar@hospital.com', 'Mon-Fri', '10:00 AM - 04:00 PM',
+//             'Dr. Arun Kumar treats disorders of the brain, spine and nervous system, with a special interest in migraine and stroke recovery.', 700],
+//         ['Dr. Meera Nair', 'Pediatrics', 'MD Pediatrics', 6, '9876500003', 'meera.nair@hospital.com', 'Mon-Sat', '09:00 AM - 01:00 PM',
+//             'Dr. Meera Nair is a warm, patient-first pediatrician focused on child development, immunization and everyday childhood illnesses.', 400],
+//         ['Dr. Rajesh Iyer', 'Orthopedics', 'MS Ortho', 10, '9876500004', 'rajesh.iyer@hospital.com', 'Tue-Sun', '11:00 AM - 06:00 PM',
+//             'Dr. Rajesh Iyer specializes in joint replacement, sports injuries and spine care, combining surgery with physiotherapy-led recovery.', 550],
+//         ['Dr. Fatima Khan', 'Dermatology', 'MD Dermatology', 5, '9876500005', 'fatima.khan@hospital.com', 'Mon-Fri', '10:00 AM - 03:00 PM',
+//             'Dr. Fatima Khan treats skin, hair and nail conditions, from acne and eczema to cosmetic dermatology consultations.', 500],
+//         ['Dr. Karthik Rao', 'General Medicine', 'MBBS, MD', 15, '9876500006', 'karthik.rao@hospital.com', 'Mon-Sat', '08:00 AM - 02:00 PM',
+//             'Dr. Karthik Rao is a general physician handling everyday illness, chronic disease management and full-body health checkups.', 300],
+//     ];
+//     $stmt = $pdo->prepare('INSERT INTO doctors (name, department, qualification, experience, phone, email, available_days, available_time, bio, fee) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+//     foreach ($doctors as $d) {
+//         $stmt->execute($d);
+//     }
+// } else {
+//     $need = $pdo->query('SELECT COUNT(*) FROM doctors WHERE bio IS NULL OR bio = ""')->fetchColumn();
+//     if ((int)$need > 0) {
+//         $pdo->exec("UPDATE doctors SET bio = COALESCE(NULLIF(bio,''), name || ' is an experienced ' || department || ' specialist at ABC Hospital, dedicated to attentive, evidence-based patient care.') WHERE bio IS NULL OR bio = ''");
+//         $pdo->exec("UPDATE doctors SET fee = 500 WHERE fee IS NULL");
+//     }
+// }
+
+// $adminCount = (int)$pdo->query('SELECT COUNT(*) FROM admin')->fetchColumn();
+// if ($adminCount === 0) {
+//     $stmt = $pdo->prepare('INSERT INTO admin (username, password) VALUES (?, ?)');
+//     $stmt->execute(['admin', password_hash('admin123', PASSWORD_DEFAULT)]);
+// }
+
+// require_once __DIR__ . '/../includes/functions.php';
+
+
+
+// database/connect.php - PDO MySQL connection, schema creation, migrations, and seed data.
+
+// InfinityFree Database Credentials
+$host = 'sql304.infinityfree.com'; // Replace with your MySQL Host Name from cPanel
+$dbname = 'if0_42956349_hr_database';   // Replace with your MySQL DB Name
+$user = 'if0_42956349';            // Replace with your MySQL User Name
+$pass = '3cnERaXkgjpsLJb';      // Replace with your MySQL Password
 
 try {
-    $pdo = new PDO('sqlite:' . $dbPath);
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $user, $pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo->exec('PRAGMA foreign_keys = ON');
+    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     die('Database connection failed: ' . $e->getMessage());
 }
 
-// List of departments used across the site (search filters, services page, seed data).
+// List of departments used across the site
 const DEPARTMENTS = ['Cardiology', 'Neurology', 'Pediatrics', 'Orthopedics', 'Dermatology', 'General Medicine'];
 
 // ---------- Core tables ----------
 $pdo->exec("CREATE TABLE IF NOT EXISTS doctors (
-    doctor_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    department TEXT NOT NULL,
-    qualification TEXT,
-    experience INTEGER,
-    phone TEXT,
-    email TEXT,
-    available_days TEXT,
-    available_time TEXT
-)");
+    doctor_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    department VARCHAR(255) NOT NULL,
+    qualification VARCHAR(255),
+    experience INT,
+    phone VARCHAR(50),
+    email VARCHAR(255),
+    available_days VARCHAR(255),
+    available_time VARCHAR(255),
+    bio TEXT,
+    fee INT
+) ENGINE=InnoDB;");
 
 $pdo->exec("CREATE TABLE IF NOT EXISTS patients (
-    patient_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    age INTEGER,
-    gender TEXT,
-    phone TEXT NOT NULL,
-    email TEXT
-)");
+    patient_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    age INT,
+    gender VARCHAR(50),
+    phone VARCHAR(50) NOT NULL,
+    email VARCHAR(255),
+    password VARCHAR(255),
+    created_at VARCHAR(255)
+) ENGINE=InnoDB;");
 
 $pdo->exec("CREATE TABLE IF NOT EXISTS appointments (
-    appointment_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    patient_id INTEGER NOT NULL,
-    doctor_id INTEGER NOT NULL,
-    appointment_date TEXT NOT NULL,
-    appointment_time TEXT NOT NULL,
+    appointment_id INT AUTO_INCREMENT PRIMARY KEY,
+    patient_id INT NOT NULL,
+    doctor_id INT NOT NULL,
+    appointment_date VARCHAR(255) NOT NULL,
+    appointment_time VARCHAR(255) NOT NULL,
     reason TEXT,
-    status TEXT NOT NULL DEFAULT 'Confirmed',
-    created_at TEXT NOT NULL,
-    FOREIGN KEY (patient_id) REFERENCES patients(patient_id),
-    FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id)
-)");
+    status VARCHAR(50) NOT NULL DEFAULT 'Confirmed',
+    created_at VARCHAR(255) NOT NULL,
+    FOREIGN KEY (patient_id) REFERENCES patients(patient_id) ON DELETE CASCADE,
+    FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id) ON DELETE CASCADE
+) ENGINE=InnoDB;");
 
 $pdo->exec("CREATE TABLE IF NOT EXISTS admin (
-    admin_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL
-)");
+    admin_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL
+) ENGINE=InnoDB;");
 
 // ---------- New tables ----------
 $pdo->exec("CREATE TABLE IF NOT EXISTS reviews (
-    review_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    doctor_id INTEGER NOT NULL,
-    patient_id INTEGER,
-    appointment_id INTEGER UNIQUE,
-    patient_name TEXT NOT NULL,
-    rating INTEGER NOT NULL,
+    review_id INT AUTO_INCREMENT PRIMARY KEY,
+    doctor_id INT NOT NULL,
+    patient_id INT,
+    appointment_id INT UNIQUE,
+    patient_name VARCHAR(255) NOT NULL,
+    rating INT NOT NULL,
     comment TEXT,
-    status TEXT NOT NULL DEFAULT 'Pending',
-    created_at TEXT NOT NULL,
-    FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id)
-)");
+    status VARCHAR(50) NOT NULL DEFAULT 'Pending',
+    created_at VARCHAR(255) NOT NULL,
+    FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id) ON DELETE CASCADE
+) ENGINE=InnoDB;");
 
 $pdo->exec("CREATE TABLE IF NOT EXISTS messages (
-    message_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    email TEXT NOT NULL,
-    subject TEXT,
+    message_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    subject VARCHAR(255),
     message TEXT NOT NULL,
-    is_read INTEGER NOT NULL DEFAULT 0,
-    created_at TEXT NOT NULL
-)");
-
-// ---------- Lightweight migrations (safe to re-run) ----------
-function addColumnIfMissing(PDO $pdo, string $table, string $column, string $definition): void
-{
-    $cols = $pdo->query("PRAGMA table_info($table)")->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($cols as $c) {
-        if (strcasecmp($c['name'], $column) === 0) {
-            return; // already exists
-        }
-    }
-    $pdo->exec("ALTER TABLE $table ADD COLUMN $column $definition");
-}
-
-addColumnIfMissing($pdo, 'patients', 'password', 'TEXT');
-addColumnIfMissing($pdo, 'patients', 'created_at', 'TEXT');
-addColumnIfMissing($pdo, 'doctors', 'bio', 'TEXT');
-addColumnIfMissing($pdo, 'doctors', 'fee', 'INTEGER');
+    is_read INT NOT NULL DEFAULT 0,
+    created_at VARCHAR(255) NOT NULL
+) ENGINE=InnoDB;");
 
 // ---------- Seed doctors ----------
 $count = (int)$pdo->query('SELECT COUNT(*) FROM doctors')->fetchColumn();
@@ -117,13 +241,6 @@ if ($count === 0) {
     $stmt = $pdo->prepare('INSERT INTO doctors (name, department, qualification, experience, phone, email, available_days, available_time, bio, fee) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
     foreach ($doctors as $d) {
         $stmt->execute($d);
-    }
-} else {
-    // Backfill bio/fee for existing rows created before this update.
-    $need = $pdo->query('SELECT COUNT(*) FROM doctors WHERE bio IS NULL OR bio = ""')->fetchColumn();
-    if ((int)$need > 0) {
-        $pdo->exec("UPDATE doctors SET bio = COALESCE(NULLIF(bio,''), name || ' is an experienced ' || department || ' specialist at ABC Hospital, dedicated to attentive, evidence-based patient care.') WHERE bio IS NULL OR bio = ''");
-        $pdo->exec("UPDATE doctors SET fee = 500 WHERE fee IS NULL");
     }
 }
 
