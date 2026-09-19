@@ -132,7 +132,7 @@
 // require_once __DIR__ . '/../includes/functions.php';
 
 
-<?php
+
 // database/connect.php - PDO MySQL connection, schema creation, migrations, and seed data.
 
 // InfinityFree Database Credentials
